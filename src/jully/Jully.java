@@ -22,7 +22,7 @@ public class Jully {
     
     public static void iniciar(){
         GTK();
-        new visual().setVisible(true);
+        new Jully_v2().setVisible(true);
     }
     
     /**

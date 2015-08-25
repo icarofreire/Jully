@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -21,10 +22,16 @@ import javax.swing.JOptionPane;
  */
 public class foto {
     
+    private String diretorio_atual = Paths.get(".").toAbsolutePath().normalize().toString()+File.separator;
     private BufferedImage img;
     private String foto;
     private String nome_foto;
     private String pasta = null;
+    private String caminho_salvar;
+    
+    foto(String _caminho_salvar){
+        caminho_salvar = _caminho_salvar;
+    }
     
     public void set_pasta(String pasta_){
         pasta = pasta_;
@@ -59,19 +66,29 @@ public class foto {
     }
     
     private void criar_imagem(BufferedImage img) throws IOException{
-        String nome = "__" + this.nome_foto;
-        File outputfile = null;
-        if(pasta != null){
-            String dir_arq = pasta + File.separator + nome;
-            outputfile = new File(dir_arq);
-            outputfile.getParentFile().mkdirs();
-            ImageIO.write(img, "jpg", outputfile);
-            Image image  = ImageIO.read(new File(dir_arq));
-        }else{
-            outputfile = new File(nome);
-            ImageIO.write(img, "jpg", outputfile);
-            Image image  = ImageIO.read(new File(nome));
-        }
+        String dir_atual_nome = caminho_salvar + this.nome_foto;
+        File outputfile = new File(dir_atual_nome);
+        ImageIO.write(img, "jpg", outputfile);
+        Image image  = ImageIO.read(new File(dir_atual_nome));
+                
+        /*try{
+            String nome = "__" + this.nome_foto;
+            File outputfile = null;
+            if(pasta != null){//se apontado uma pasta;
+                String dir_arq = pasta + File.separator + nome;
+                outputfile = new File(dir_arq);
+                outputfile.getParentFile().mkdirs();
+                ImageIO.write(img, "jpg", outputfile);
+                Image image  = ImageIO.read(new File(dir_arq));
+            }else{//se apontado uma imagem;
+                String dir_atual_nome = diretorio_atual + "__" + this.nome_foto;
+                outputfile = new File(dir_atual_nome);
+                ImageIO.write(img, "jpg", outputfile);
+                Image image  = ImageIO.read(new File(dir_atual_nome));
+            }
+        }catch(java.io.FileNotFoundException e){ 
+            JOptionPane.showMessageDialog(null, "erro no diretório para criar a nova imagem/pasta.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }*/
     }
     
     private void recortar_foto() throws IOException{

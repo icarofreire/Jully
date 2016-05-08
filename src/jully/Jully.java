@@ -7,6 +7,8 @@ package jully;
 
 import java.io.File;
 import java.io.IOException;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -25,12 +27,28 @@ public class Jully {
         new Jully_v2().setVisible(true);
     }
     
+    public static void nova_gui(){
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception unused) {
+            // Nothing can be done, so just ignore it.
+        }
+        
+        //... Start up GUI.
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+               new gui().montar_gui("Jully");
+            }
+        });
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
         
-        iniciar();
+//        iniciar();
+        nova_gui();
         
     }
     
